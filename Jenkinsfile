@@ -9,50 +9,45 @@ pipeline {
     }
 
     stage('Build Docker') {
-
         steps {
           pwsh(script: 'docker images -a')
           pwsh(script: ""
             "
             cd azure - vote /
-            docker build - t jenkins - pipeline.docker images - a cd..
+            docker build - t jenkins - pipeline.docker images - a 
+            cd..
             ""
             ")
-          }
         }
+    }
 
-        stage('Start app') {
-          steps {
+    stage('Start App') {
+        steps {
             pwsh(script: ""
               "
               . / scripts / test_container.psl ""
               ")
             }
-            post {
-
-              success {
+        post {
+            success {
                 echo "App started successfully"
-              }
-              failure {
+            }
+            failure {
                 echo "App failed"
-              }
             }
-          }
-
-          stage('Run tests') {
-            steps {
-              pwsh(script: ""
-                "
-                . / test / test_sample.py ""
-                ")
-              }
-            }
-
-            stage('Stop test app') {
-              steps {
-                pwsh(script: 'docker-compose down')
-              }
-            }
-
+        }
     }
+
+    stage('Run Tests') {
+        steps {
+          pwsh(script: '. / test / test_sample.py')
+        }
+    }
+
+    stage('Stop App') {
+        steps {
+          pwsh(script: 'docker-compose down')
+        }
+    }
+  }
 }
