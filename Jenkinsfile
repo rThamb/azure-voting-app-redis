@@ -18,6 +18,8 @@ pipeline {
                     """)
             }
         }
+
+        /*
         stage('Start App') {
             steps {
                 pwsh(script: ""
@@ -44,5 +46,6 @@ pipeline {
                 pwsh(script: 'docker-compose down')
             }
         }
+        */
     }
 }
